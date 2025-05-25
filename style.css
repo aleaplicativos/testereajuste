@@ -1,0 +1,57 @@
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f7f7f7;
+}
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-width: 1000px;
+  margin: auto;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+label {
+  display: inline-block;
+  margin: 10px 10px 0 0;
+}
+input[type="number"],
+input[type="date"] {
+  padding: 5px;
+  margin-bottom: 10px;
+  width: 150px;
+}
+button {
+  margin: 10px 10px 20px 0;
+  padding: 10px 20px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #004d99;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+table, th, td {
+  border: 1px solid #ccc;
+}
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+}

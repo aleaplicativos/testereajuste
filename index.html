@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de DDO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Calculadora de DDO com Índice</h1>
+
+  <div class="container">
+    <label for="indice">Índice de Reajuste (%):</label>
+    <input type="number" id="indice" step="0.01" value="0">
+
+    <label for="dataInicio">Data de Início:</label>
+    <input type="date" id="dataInicio">
+
+    <label for="dataFim">Data de Fim:</label>
+    <input type="date" id="dataFim">
+
+    <button onclick="adicionarLinha()">Adicionar Item</button>
+    <button onclick="copiarTabela()">Copiar Tabela</button>
+
+    <table id="tabelaItens">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Descrição</th>
+          <th>Unidade</th>
+          <th>Quantidade</th>
+          <th>Valor Unitário Atual</th>
+          <th>Valor Total Atual</th>
+          <th>Valor Unitário Atualizado</th>
+          <th>Valor Total Atualizado</th>
+          <th>Diferença</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" style="text-align: right; font-weight: bold">Totais:</td>
+          <td id="totalAtual">-</td>
+          <td>-</td>
+          <td id="totalAtualizado">-</td>
+          <td id="totalDiferenca">-</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
