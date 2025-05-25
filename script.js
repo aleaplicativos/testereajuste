@@ -1,4 +1,3 @@
-
 function adicionarLinha() {
   const tabela = document.getElementById("tabelaItens").getElementsByTagName('tbody')[0];
   const indice = parseFloat(document.getElementById("indice").value.replace(',', '.')) / 100 || 0;
@@ -18,7 +17,6 @@ function adicionarLinha() {
   campos.forEach(campo => {
     const celula = novaLinha.insertCell();
     const input = document.createElement("input");
-
     input.type = "text";
     input.step = "0.01";
 
@@ -79,7 +77,7 @@ function atualizarLinha(linha, indice, dataInicio, dataFim) {
   linha.cells[8].textContent = formatarMoeda(diferenca);
 
   const anos = obterAnos(dataInicio, dataFim);
-  const rateio = ratearPorAno(valorTotalAtualizado, dataInicio, dataFim);
+  const rateio = ratearPorAnoDias(valorTotalAtualizado, dataInicio, dataFim);
 
   anos.forEach((ano, idx) => {
     const valor = rateio[ano] || 0;
@@ -132,21 +130,21 @@ function gerarColunasAnos(dataInicio, dataFim) {
   }
 }
 
-function ratearPorAno(valorTotal, dataInicio, dataFim) {
-  const mesesPorAno = {};
+function ratearPorAnoDias(valorTotal, dataInicio, dataFim) {
+  const diasPorAno = {};
   const dataAtual = new Date(dataInicio);
 
   while (dataAtual <= dataFim) {
     const ano = dataAtual.getFullYear();
-    if (!mesesPorAno[ano]) mesesPorAno[ano] = 0;
-    mesesPorAno[ano]++;
-    dataAtual.setMonth(dataAtual.getMonth() + 1);
+    if (!diasPorAno[ano]) diasPorAno[ano] = 0;
+    diasPorAno[ano]++;
+    dataAtual.setDate(dataAtual.getDate() + 1);
   }
 
-  const totalMeses = Object.values(mesesPorAno).reduce((a, b) => a + b, 0);
+  const totalDias = Object.values(diasPorAno).reduce((a, b) => a + b, 0);
   const valoresRateados = {};
-  for (const ano in mesesPorAno) {
-    valoresRateados[ano] = valorTotal * (mesesPorAno[ano] / totalMeses);
+  for (const ano in diasPorAno) {
+    valoresRateados[ano] = valorTotal * (diasPorAno[ano] / totalDias);
   }
   return valoresRateados;
 }
