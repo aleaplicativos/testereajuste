@@ -18,7 +18,7 @@ function adicionarLinha() {
     const celula = novaLinha.insertCell();
     const input = document.createElement("input");
 
-    input.type = campo === "quantidade" ? "number" : "text";
+    input.type = "text";
     input.step = "0.01";
 
     if (campo === "valorUnitario") {
@@ -26,6 +26,13 @@ function adicionarLinha() {
         let val = input.value.replace(/\D/g, "");
         val = (parseInt(val, 10) / 100).toFixed(2);
         input.value = formatarMoeda(val);
+      });
+    }
+
+    if (campo === "quantidade") {
+      input.addEventListener("input", () => {
+        let val = input.value.replace(/\D/g, "");
+        input.value = formatarNumero(val);
       });
     }
 
@@ -39,10 +46,26 @@ function adicionarLinha() {
 
   const anos = obterAnos(dataInicio, dataFim);
   anos.forEach(() => novaLinha.insertCell().textContent = "-");
+
+  // Botão de excluir
+  const celulaExcluir = novaLinha.insertCell();
+  const botaoExcluir = document.createElement("button");
+  botaoExcluir.textContent = "Excluir";
+  botaoExcluir.onclick = () => {
+    novaLinha.remove();
+    atualizarTotais();
+  };
+  botaoExcluir.style.backgroundColor = "#cc0000";
+  botaoExcluir.style.color = "white";
+  botaoExcluir.style.border = "none";
+  botaoExcluir.style.padding = "5px 10px";
+  botaoExcluir.style.cursor = "pointer";
+  botaoExcluir.style.borderRadius = "4px";
+  celulaExcluir.appendChild(botaoExcluir);
 }
 
 function atualizarLinha(linha, indice, dataInicio, dataFim) {
-  const quantidade = parseFloat(linha.cells[3].firstChild?.value) || 0;
+  const quantidade = desformatarNumero(linha.cells[3].firstChild?.value);
   const valorUnitario = desformatarMoeda(linha.cells[4].firstChild?.value);
 
   const valorTotalAtual = quantidade * valorUnitario;
@@ -101,6 +124,13 @@ function gerarColunasAnos(dataInicio, dataFim) {
     th.textContent = "Exercício " + ano;
     row.appendChild(th);
   });
+
+  // Adicionar coluna "Excluir" se ainda não existir
+  if (row.cells.length === 9 + obterAnos(dataInicio, dataFim).length) {
+    const th = document.createElement("th");
+    th.textContent = "Ações";
+    row.appendChild(th);
+  }
 }
 
 function ratearPorAno(valorTotal, dataInicio, dataFim) {
@@ -132,8 +162,7 @@ function copiarTabela() {
   alert("Tabela copiada para a área de transferência.");
 }
 
-// 🧾 Funções auxiliares
-
+// Funções auxiliares
 function formatarMoeda(valor) {
   return parseFloat(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
@@ -141,4 +170,13 @@ function formatarMoeda(valor) {
 function desformatarMoeda(valorFormatado) {
   if (!valorFormatado) return 0;
   return parseFloat(valorFormatado.replace(/[R$\s.]/g, '').replace(',', '.')) || 0;
+}
+
+function formatarNumero(valor) {
+  return parseInt(valor, 10).toLocaleString('pt-BR');
+}
+
+function desformatarNumero(valorFormatado) {
+  if (!valorFormatado) return 0;
+  return parseInt(valorFormatado.replace(/\./g, '')) || 0;
 }
