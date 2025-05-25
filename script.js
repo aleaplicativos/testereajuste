@@ -1,6 +1,7 @@
+
 function adicionarLinha() {
   const tabela = document.getElementById("tabelaItens").getElementsByTagName('tbody')[0];
-  const indice = parseFloat(document.getElementById("indice").value) / 100 || 0;
+  const indice = parseFloat(document.getElementById("indice").value.replace(',', '.')) / 100 || 0;
   const dataInicio = new Date(document.getElementById("dataInicio").value);
   const dataFim = new Date(document.getElementById("dataFim").value);
 
@@ -47,7 +48,6 @@ function adicionarLinha() {
   const anos = obterAnos(dataInicio, dataFim);
   anos.forEach(() => novaLinha.insertCell().textContent = "-");
 
-  // Botão de excluir
   const celulaExcluir = novaLinha.insertCell();
   const botaoExcluir = document.createElement("button");
   botaoExcluir.textContent = "Excluir";
@@ -117,7 +117,7 @@ function obterAnos(dataInicio, dataFim) {
 function gerarColunasAnos(dataInicio, dataFim) {
   const thead = document.getElementById("tabelaItens").getElementsByTagName("thead")[0];
   const row = thead.rows[0];
-  while (row.cells.length > 9) row.deleteCell(-1); // 9 colunas fixas
+  while (row.cells.length > 9) row.deleteCell(-1);
 
   obterAnos(dataInicio, dataFim).forEach(ano => {
     const th = document.createElement("th");
@@ -125,7 +125,6 @@ function gerarColunasAnos(dataInicio, dataFim) {
     row.appendChild(th);
   });
 
-  // Adicionar coluna "Excluir" se ainda não existir
   if (row.cells.length === 9 + obterAnos(dataInicio, dataFim).length) {
     const th = document.createElement("th");
     th.textContent = "Ações";
@@ -162,7 +161,6 @@ function copiarTabela() {
   alert("Tabela copiada para a área de transferência.");
 }
 
-// Funções auxiliares
 function formatarMoeda(valor) {
   return parseFloat(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
